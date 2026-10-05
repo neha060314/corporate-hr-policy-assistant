@@ -60,59 +60,17 @@ The pipeline follows this RAG workflow:
 
 ------------------------------------------------------------------------
 
-## Example
-
-### Policy-grounded question
-
-**Question**
-
-> Can I carry forward unused earned leave?
-
-**Answer**
-
-> Yes. Unused Earned Leave can be carried forward up to a maximum of 45
-> days.
-
-The response also displays the relevant policy document and page
-reference.
-
-### Information not available in policy
-
-**Question**
-
-> Can I carry forward unused sick leave?
-
-**Answer**
-
-> This information is not available in the uploaded company policies.
-
-The assistant does not infer the answer from general HR practices
-because the uploaded policy does not specify a sick-leave carry-forward
-rule.
-
-------------------------------------------------------------------------
-
 ## Policy Documents
 
-The demo currently uses three HR policy documents:
+The demo currently uses three sample HR policy documents:
 
-  -----------------------------------------------------------------------
-  Document                            Covers
-  ----------------------------------- -----------------------------------
-  `Company Employee Handbook.pdf`     Working hours, attendance, dress
-                                      code, workplace conduct and company
-                                      assets
+| Document | Covers |
+|---|---|
+| `Company Employee Handbook.pdf` | Working hours, attendance, dress code, workplace conduct, company assets |
+| `Leave Policy.pdf` | Casual, sick, earned, maternity, and paternity leave |
+| `Work From Home Policy.pdf` | WFH eligibility, weekly limits, availability, and security |
 
-  `Leave Policy.pdf`                  Casual, sick, earned, maternity and
-                                      paternity leave
-
-  `Work From Home Policy.pdf`         WFH eligibility, weekly limits,
-                                      availability and security
-                                      requirements
-  -----------------------------------------------------------------------
-
-These documents are sample policies created for demonstrating the RAG
-workflow.
+These documents are created specifically to demonstrate the RAG workflow.
 
 ------------------------------------------------------------------------
 
@@ -195,16 +153,16 @@ This allows the user to verify where the answer came from.
 
 ## Tech Stack
 
-  Component                Technology
-  ------------------------ -----------------------------------
-  Programming Language     Python
-  User Interface           Chainlit
-  LLM                      Google Gemini
-  LLM Framework            LangChain
-  Embeddings               HuggingFace Sentence Transformers
-  Vector Store             FAISS
-  PDF Processing           PyPDF
-  Environment Management   python-dotenv
+| Component | Technology |
+|---|---|
+| Language | Python |
+| UI | Chainlit |
+| LLM | Google Gemini |
+| Framework | LangChain |
+| Embeddings | HuggingFace (`all-MiniLM-L6-v2`) |
+| Vector Store | FAISS |
+| PDF Processing | PyPDF |
+| Configuration | python-dotenv |
 
 ------------------------------------------------------------------------
 
@@ -262,7 +220,7 @@ corporate-hr-policy-assistant/
 ### 1. Clone the repository
 
 ``` bash
-git clone https://github.com/YOUR_USERNAME/corporate-hr-policy-assistant.git
+git clone https://github.com/neha060314/corporate-hr-policy-assistant.git
 cd corporate-hr-policy-assistant
 ```
 
@@ -300,8 +258,6 @@ EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
 
 A template is provided in `.env.example`.
 
-Do not commit your actual `.env` file.
-
 ### 5. Run the application
 
 ``` bash
@@ -338,81 +294,6 @@ chainlit run app.py
 
 The application will load the available PDFs, split their content,
 generate embeddings and create a new FAISS index.
-
-------------------------------------------------------------------------
-
-## Grounding Behavior
-
-This project intentionally prioritizes grounded answers over attempting
-to answer every question.
-
-For example, the Leave Policy explicitly states that unused Earned Leave
-can be carried forward up to 45 days.
-
-Therefore, the assistant can answer:
-
-> Can I carry forward unused earned leave?
-
-However, if the uploaded policy documents do not specify whether unused
-Sick Leave can be carried forward, the assistant does not assume that
-the rule exists.
-
-Instead, it returns:
-
-> This information is not available in the uploaded company policies.
-
-This behavior is important for policy-based applications where an
-invented answer could lead to an incorrect employee decision.
-
-------------------------------------------------------------------------
-
-## Current Limitations
-
--   The system currently accepts PDF policy documents.
--   Answers are limited to information contained in the uploaded
-    policies.
--   Policy changes require rebuilding the FAISS index.
--   The vector store is local and currently uses FAISS.
--   There is no employee authentication or role-based access control.
--   The sample policy documents are created for demonstration purposes.
--   Retrieval quality depends on the quality and structure of the source
-    documents.
-
-------------------------------------------------------------------------
-
-## Possible Future Improvements
-
--   Hybrid keyword + semantic retrieval
--   Retrieval reranking
--   Policy version management
--   Automatic index rebuilding
--   Employee authentication and role-based access
--   Admin interface for uploading and managing policies
--   Conversation history
--   Automated RAG evaluation
--   Retrieval precision and answer-grounding metrics
--   Support for larger enterprise document collections
--   Hosted vector database for scalable deployment
-
-------------------------------------------------------------------------
-
-## Requirements
-
-The project uses pinned versions of its primary dependencies for
-reproducibility.
-
-``` text
-chainlit==2.12.0
-langchain==1.4.3
-langchain-community==0.4.2
-langchain-google-genai==4.4.0
-langchain-huggingface==1.2.2
-langchain-text-splitters==1.1.3
-faiss-cpu==1.15.1
-sentence-transformers==6.1.0
-pypdf==6.19.0
-python-dotenv==1.2.4
-```
 
 ------------------------------------------------------------------------
 
